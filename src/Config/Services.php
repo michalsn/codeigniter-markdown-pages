@@ -11,15 +11,15 @@ class Services extends BaseService
     /**
      * Return the markdown pages class.
      */
-    public static function markdownpages(string $folderPath, ?MarkdownPagesConfig $config = null, bool $getShared = true): MarkdownPages
+    public static function markdownpages(string $baseFolder, ?MarkdownPagesConfig $config = null, bool $getShared = true): MarkdownPages
     {
         if ($getShared) {
-            return static::getSharedInstance('markdownpages', $folderPath, $config);
+            return static::getSharedInstance('markdownpages', $baseFolder, $config);
         }
 
-        /** @var MarkdownPagesConfig $config */
         $config ??= config('MarkdownPages');
 
-        return new MarkdownPages($folderPath, $config);
+        /** @var MarkdownPagesConfig $config */
+        return new MarkdownPages($baseFolder, $config);
     }
 }

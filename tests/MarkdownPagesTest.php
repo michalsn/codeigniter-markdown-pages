@@ -24,7 +24,7 @@ final class MarkdownPagesTest extends TestCase
         parent::setUp();
 
         $this->folderPath = SUPPORTPATH . 'Pages';
-        $this->config = config(MarkdownPagesConfig::class);
+        $this->config     = config(MarkdownPagesConfig::class);
     }
 
     public function testMarkdownPages()
@@ -54,7 +54,7 @@ final class MarkdownPagesTest extends TestCase
     public function testDir()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $dir = $markdownPages->dir('folder');
+        $dir           = $markdownPages->dir('folder');
 
         $this->assertInstanceOf(Dir::class, $dir);
 
@@ -62,13 +62,13 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('folder', $dir->getSlug());
         $this->assertSame('1_folder', $dir->getDirName());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
-        $this->assertSame(3, $dir->getFiles()->count());
+        $this->assertCount(3, $dir->getFiles());
     }
 
     public function testDirDoesNotExist()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $dir = $markdownPages->dir('incorrect');
+        $dir           = $markdownPages->dir('incorrect');
 
         $this->assertNull($dir);
     }
@@ -76,7 +76,7 @@ final class MarkdownPagesTest extends TestCase
     public function testDirWithArray()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $dir = $markdownPages->dir(['folder']);
+        $dir           = $markdownPages->dir(['folder']);
 
         $this->assertInstanceOf(Dir::class, $dir);
 
@@ -84,13 +84,13 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('folder', $dir->getSlug());
         $this->assertSame('1_folder', $dir->getDirName());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
-        $this->assertSame(3, $dir->getFiles()->count());
+        $this->assertCount(3, $dir->getFiles());
     }
 
     public function testDirWithStringSearch()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $dir = $markdownPages->dir('another*');
+        $dir           = $markdownPages->dir('another*');
 
         $this->assertInstanceOf(Dir::class, $dir);
 
@@ -98,17 +98,17 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('another-best-one', $dir->getSlug());
         $this->assertSame('another-best-one', $dir->getDirName());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
-        $this->assertSame(3, $dir->getFiles()->count());
+        $this->assertCount(3, $dir->getFiles());
     }
 
     public function testDirs()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $collection = $markdownPages->dirs('folder');
+        $collection    = $markdownPages->dirs('folder');
 
         $this->assertInstanceOf(Collection::class, $collection);
 
-        $this->assertSame(1, $collection->count());
+        $this->assertCount(1, $collection);
 
         $dir = $collection->first();
 
@@ -116,18 +116,18 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('folder', $dir->getSlug());
         $this->assertSame('1_folder', $dir->getDirName());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
-        $this->assertSame(3, $dir->getFiles()->count());
+        $this->assertCount(3, $dir->getFiles());
         $this->assertInstanceOf(Dir::class, $dir);
     }
 
     public function testDirsWithNull()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $collection = $markdownPages->dirs();
+        $collection    = $markdownPages->dirs();
 
         $this->assertInstanceOf(Collection::class, $collection);
 
-        $this->assertSame(7, $collection->count());
+        $this->assertCount(7, $collection);
 
         $this->assertSame('', $collection->first()->getSlug());
         $this->assertSame('folder', $collection->next()->getSlug());
@@ -141,7 +141,7 @@ final class MarkdownPagesTest extends TestCase
     public function testDirsWhenNothingFound()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $collection = $markdownPages->dirs('incorrect*');
+        $collection    = $markdownPages->dirs('incorrect*');
 
         $this->assertTrue($collection->isEmpty());
     }
@@ -149,11 +149,11 @@ final class MarkdownPagesTest extends TestCase
     public function testDirsWithArray()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $collection = $markdownPages->dirs(['folder', 'another-one']);
+        $collection    = $markdownPages->dirs(['folder', 'another-one']);
 
         $this->assertInstanceOf(Collection::class, $collection);
 
-        $this->assertSame(2, $collection->count());
+        $this->assertCount(2, $collection);
 
         $dir = $collection->first();
         $this->assertInstanceOf(Dir::class, $dir);
@@ -162,7 +162,7 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('folder', $dir->getSlug());
         $this->assertSame('1_folder', $dir->getDirName());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
-        $this->assertSame(3, $dir->getFiles()->count());
+        $this->assertCount(3, $dir->getFiles());
 
         $dir = $collection->last();
         $this->assertInstanceOf(Dir::class, $dir);
@@ -171,17 +171,17 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('another-one', $dir->getSlug());
         $this->assertSame('another-one', $dir->getDirName());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
-        $this->assertSame(2, $dir->getFiles()->count());
+        $this->assertCount(2, $dir->getFiles());
     }
 
     public function testDirsWithStringSearch()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $collection = $markdownPages->dirs('another*');
+        $collection    = $markdownPages->dirs('another*');
 
         $this->assertInstanceOf(Collection::class, $collection);
 
-        $this->assertSame(2, $collection->count());
+        $this->assertCount(2, $collection);
 
         $dir = $collection->first();
 
@@ -189,7 +189,7 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('another-best-one', $dir->getSlug());
         $this->assertSame('another-best-one', $dir->getDirName());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
-        $this->assertSame(3, $dir->getFiles()->count());
+        $this->assertCount(3, $dir->getFiles());
         $this->assertInstanceOf(Dir::class, $dir);
 
         $dir = $collection->last();
@@ -198,14 +198,14 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('another-one', $dir->getSlug());
         $this->assertSame('another-one', $dir->getDirName());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
-        $this->assertSame(2, $dir->getFiles()->count());
+        $this->assertCount(2, $dir->getFiles());
         $this->assertInstanceOf(Dir::class, $dir);
     }
 
     public function testFile()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $file = $markdownPages->file('folder/file-1');
+        $file          = $markdownPages->file('folder/file-1');
 
         $this->assertInstanceOf(File::class, $file);
         $this->assertSame('File 1', $file->getName());
@@ -233,7 +233,7 @@ final class MarkdownPagesTest extends TestCase
     public function testFileDoesNotExist()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $file = $markdownPages->file('folder/file-11111');
+        $file          = $markdownPages->file('folder/file-11111');
 
         $this->assertNull($file);
     }
@@ -241,14 +241,14 @@ final class MarkdownPagesTest extends TestCase
     public function testSearch()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $search = $markdownPages->search('content');
+        $search        = $markdownPages->search('content');
 
         $this->assertInstanceOf(Results::class, $search);
         $this->assertSame('content', $search->getQuery());
 
         $results = $search->getResults();
         $this->assertInstanceOf(Collection::class, $results);
-        $this->assertSame(4, $results->count());
+        $this->assertCount(4, $results);
 
         $result = $results->first();
         $this->assertInstanceOf(File::class, $result->getFile());
@@ -282,13 +282,13 @@ final class MarkdownPagesTest extends TestCase
     public function testSearchWhenNothingFound()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $search = $markdownPages->search('nothing to found');
+        $search        = $markdownPages->search('nothing to found');
 
         $this->assertInstanceOf(Results::class, $search);
         $this->assertSame('nothing to found', $search->getQuery());
 
         $results = $search->getResults();
         $this->assertInstanceOf(Collection::class, $results);
-        $this->assertSame(0, $results->count());
+        $this->assertCount(0, $results);
     }
 }

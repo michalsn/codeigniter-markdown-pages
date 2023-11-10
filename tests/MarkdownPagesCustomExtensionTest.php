@@ -21,8 +21,8 @@ final class MarkdownPagesCustomExtensionTest extends TestCase
     {
         parent::setUp();
 
-        $this->folderPath = SUPPORTPATH . 'Pages';
-        $this->config = config(MarkdownPagesConfig::class);
+        $this->folderPath            = SUPPORTPATH . 'Pages';
+        $this->config                = config(MarkdownPagesConfig::class);
         $this->config->fileExtension = 'html';
     }
 
@@ -35,24 +35,24 @@ final class MarkdownPagesCustomExtensionTest extends TestCase
     public function testDir()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $dir = $markdownPages->dir('folder');
+        $dir           = $markdownPages->dir('folder');
 
         $this->assertSame('Folder', $dir->getName());
         $this->assertSame('folder', $dir->getSlug());
         $this->assertSame('1_folder', $dir->getDirName());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
-        $this->assertSame(1, $dir->getFiles()->count());
+        $this->assertCount(1, $dir->getFiles());
         $this->assertInstanceOf(Dir::class, $dir);
     }
 
     public function testDirs()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $collection = $markdownPages->dirs();
+        $collection    = $markdownPages->dirs();
 
         $this->assertInstanceOf(Collection::class, $collection);
 
-        $this->assertSame(1, $collection->count());
+        $this->assertCount(1, $collection);
 
         $dir = $collection->first();
 
@@ -60,15 +60,15 @@ final class MarkdownPagesCustomExtensionTest extends TestCase
         $this->assertSame('folder', $dir->getSlug());
         $this->assertSame('1_folder', $dir->getDirName());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
-        $this->assertSame(1, $dir->getFiles()->count());
+        $this->assertCount(1, $dir->getFiles());
         $this->assertInstanceOf(Dir::class, $dir);
     }
 
     public function testFileWithDummyHandler()
     {
         $this->config->defaultHandler = 'dummy';
-        $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $file = $markdownPages->file('folder/surprise');
+        $markdownPages                = new MarkdownPages($this->folderPath, $this->config);
+        $file                         = $markdownPages->file('folder/surprise');
 
         $this->assertInstanceOf(File::class, $file);
         $this->assertSame('Surprise', $file->getName());

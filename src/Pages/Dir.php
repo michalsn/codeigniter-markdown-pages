@@ -22,9 +22,7 @@ class Dir
         $this->depth = $this->dirName === '' ? 0 : count($paths);
 
         // Set slug
-        $this->slug = implode('/', array_map(function ($path) {
-            return $this->cleanup($path);
-        }, $paths));
+        $this->slug = implode('/', array_map(fn ($path) => $this->cleanup($path), $paths));
 
         // Set name
         $this->name = humanize($this->cleanup(end($paths)), '-');

@@ -33,9 +33,7 @@ class Results
             return $this;
         }
 
-        $this->results = $this->results->{$sort->value}(function ($result) {
-            return $result->getScore();
-        });
+        $this->results = $this->results->{$sort->value}(static fn ($result) => $result->getScore());
 
         return $this;
     }

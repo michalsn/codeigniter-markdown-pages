@@ -9,8 +9,7 @@ use Michalsn\CodeIgniterMarkdownPages\Handlers\ParsedownHandler;
 class MarkdownPages extends BaseMarkdownPages
 {
     public string $defaultHandler = 'parsedown';
-
-    public array $handlers = [
+    public array $handlers        = [
         'dummy'     => DummyHandler::class,
         'parsedown' => ParsedownHandler::class,
     ];

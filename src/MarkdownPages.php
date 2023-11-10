@@ -35,7 +35,7 @@ class MarkdownPages
         $data = [];
 
         $directoryIterator = new RecursiveDirectoryIterator($folderPath, FilesystemIterator::SKIP_DOTS);
-        $iterator = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::SELF_FIRST);
+        $iterator          = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::SELF_FIRST);
 
         foreach ($iterator as $file) {
             if ($file->isFile() && $file->getExtension() === $config->fileExtension) {
@@ -52,14 +52,8 @@ class MarkdownPages
 
         // Sort
         $this->pages = new Collection(array_values($data));
-        $this->pages = $this->pages->sort(function ($dir) {
-            return $dir->getDirName();
-        });
-        $this->pages->each(function ($dir) {
-            return $dir->getFiles()->sort(function ($file) {
-                return $file->getFileName();
-            });
-        });
+        $this->pages = $this->pages->sort(static fn ($dir) => $dir->getDirName());
+        $this->pages->each(static fn ($dir) => $dir->getFiles()->sort(static fn ($file) => $file->getFileName()));
     }
 
     /**
@@ -67,13 +61,13 @@ class MarkdownPages
      */
     public function dir(string|array $value, SortField $field = SortField::SLUG): ?Dir
     {
-        return $this->pages->find(function($item) use ($value, $field) {
+        return $this->pages->find(static function ($item) use ($value, $field) {
             if (is_array($value)) {
                 return in_array($item->{$field->value}(), $value, true);
             }
 
             if (str_contains($value, '*')) {
-                return str_starts_with($item->{$field->value}(), rtrim($value, '*'));
+                return str_starts_with((string) $item->{$field->value}(), rtrim($value, '*'));
             }
 
             return $item->{$field->value}() === $value;
@@ -83,19 +77,19 @@ class MarkdownPages
     /**
      * Get dirs based on value.
      */
-    public function dirs(string|array $value = null, SortField $field = SortField::SLUG): Collection
+    public function dirs(string|array|null $value = null, SortField $field = SortField::SLUG): Collection
     {
         if ($value === null) {
             return $this->pages;
         }
 
-        return $this->pages->filter(function($item) use ($value, $field) {
+        return $this->pages->filter(static function ($item) use ($value, $field) {
             if (is_array($value)) {
                 return in_array($item->{$field->value}(), $value, true);
             }
 
             if (str_contains($value, '*')) {
-                return str_starts_with($item->{$field->value}(), rtrim($value, '*'));
+                return str_starts_with((string) $item->{$field->value}(), rtrim($value, '*'));
             }
 
             return $item->{$field->value}() === $value;
@@ -120,9 +114,7 @@ class MarkdownPages
             return null;
         }
 
-        return $dir->getFiles()->find(function($item) use ($value, $field) {
-            return $item->{$field->value}() === $value;
-        });
+        return $dir->getFiles()->find(static fn ($item) => $item->{$field->value}() === $value);
     }
 
     /**
@@ -135,7 +127,7 @@ class MarkdownPages
         foreach ($this->pages->items() as $dir) {
             foreach ($dir->getFiles()->items() as $file) {
                 if ($content = $file->load()) {
-                    $content = mb_strtolower($content);
+                    $content = mb_strtolower((string) $content);
                     if (($score = mb_substr_count($content, $query)) > 0) {
                         $search->add(new Result($file, $score));
                     }

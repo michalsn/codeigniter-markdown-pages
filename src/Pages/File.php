@@ -16,18 +16,16 @@ class File
         protected string $dirName,
         protected string $basePath,
         protected int $depth,
-        protected HandlerInterface $parser)
-    {
+        protected HandlerInterface $parser
+    ) {
         helper('inflector');
 
         $this->slug = $this->cleanup($fileName);
 
         $this->name = humanize($this->slug, '-');
 
-        $paths = explode('/', $dirName);
-        $this->dirNameSlug = implode('/', array_map(function ($path) {
-            return $this->cleanup($path);
-        }, $paths));
+        $paths             = explode('/', $dirName);
+        $this->dirNameSlug = implode('/', array_map(fn ($path) => $this->cleanup($path), $paths));
     }
 
     /**
@@ -100,8 +98,9 @@ class File
     public function load(bool $throw = false): ?string
     {
         $path = implode(
-            DIRECTORY_SEPARATOR, [
-                $this->getBasePath(), $this->getDirName(), $this->getFileName()
+            DIRECTORY_SEPARATOR,
+            [
+                $this->getBasePath(), $this->getDirName(), $this->getFileName(),
             ]
         );
 
