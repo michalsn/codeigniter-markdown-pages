@@ -59,9 +59,13 @@ class MarkdownPages
     /**
      * Get dir based on value.
      */
-    public function dir(string|array $value, SortField $field = SortField::SLUG): ?Dir
+    public function dir(string|array $value, ?int $depth = null, SortField $field = SortField::SLUG): ?Dir
     {
-        return $this->pages->find(static function ($item) use ($value, $field) {
+        return $this->pages->find(static function ($item) use ($value, $depth, $field) {
+            if ($depth !== null && $item->getDepth() > $depth) {
+                return false;
+            }
+
             if (is_array($value)) {
                 return in_array($item->{$field->value}(), $value, true);
             }
@@ -77,13 +81,21 @@ class MarkdownPages
     /**
      * Get dirs based on value.
      */
-    public function dirs(string|array|null $value = null, SortField $field = SortField::SLUG): Collection
+    public function dirs(string|array|null $value = null, ?int $depth = null, SortField $field = SortField::SLUG): Collection
     {
-        if ($value === null) {
+        if ($value === null && $depth === null) {
             return $this->pages;
         }
 
-        return $this->pages->filter(static function ($item) use ($value, $field) {
+        return $this->pages->filter(static function ($item) use ($value, $depth, $field) {
+            if ($depth !== null && $item->getDepth() > $depth) {
+                return false;
+            }
+
+            if ($value === null) {
+                return true;
+            }
+
             if (is_array($value)) {
                 return in_array($item->{$field->value}(), $value, true);
             }

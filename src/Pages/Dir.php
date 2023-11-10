@@ -16,10 +16,10 @@ class Dir
     {
         helper('inflector');
 
-        $paths = explode('/', $this->dirName);
+        $paths = explode('/', $dirName);
 
         // Set depth
-        $this->depth = $this->dirName === '' ? 0 : count($paths);
+        $this->depth = $dirName === '' ? 0 : count($paths);
 
         // Set slug
         $this->slug = implode('/', array_map(fn ($path) => $this->cleanup($path), $paths));

@@ -138,6 +138,28 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('another-one', $collection->next()->getSlug());
     }
 
+    public function testDirsWithNullAndDepth()
+    {
+        $markdownPages = new MarkdownPages($this->folderPath, $this->config);
+        $collection    = $markdownPages->dirs(null, 1);
+
+        $this->assertInstanceOf(Collection::class, $collection);
+
+        $this->assertCount(4, $collection);
+
+        $this->assertSame('', $collection->first()->getSlug());
+        $this->assertSame(0, $collection->first()->getDepth());
+        $next = $collection->next();
+        $this->assertSame('folder', $next->getSlug());
+        $this->assertSame(1, $next->getDepth());
+        $next = $collection->next();
+        $this->assertSame('another-best-one', $next->getSlug());
+        $this->assertSame(1, $next->getDepth());
+        $next = $collection->next();
+        $this->assertSame('another-one', $next->getSlug());
+        $this->assertSame(1, $next->getDepth());
+    }
+
     public function testDirsWhenNothingFound()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
