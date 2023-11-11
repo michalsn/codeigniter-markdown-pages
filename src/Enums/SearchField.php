@@ -2,7 +2,7 @@
 
 namespace Michalsn\CodeIgniterMarkdownPages\Enums;
 
-enum SortField: string
+enum SearchField: string
 {
     case NAME = 'getName';
     case SLUG = 'getSlug';

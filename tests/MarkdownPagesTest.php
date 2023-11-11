@@ -141,7 +141,7 @@ final class MarkdownPagesTest extends TestCase
     public function testDirsWithNullAndDepth()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $collection    = $markdownPages->dirs(null, 1);
+        $collection    = $markdownPages->depth(1)->dirs();
 
         $this->assertInstanceOf(Collection::class, $collection);
 
@@ -158,6 +158,67 @@ final class MarkdownPagesTest extends TestCase
         $next = $collection->next();
         $this->assertSame('another-one', $next->getSlug());
         $this->assertSame(1, $next->getDepth());
+    }
+
+    public function testDirsWithNullAndDepthArray()
+    {
+        $markdownPages = new MarkdownPages($this->folderPath, $this->config);
+        $collection    = $markdownPages->depth([1, 2])->dirs();
+
+        $this->assertInstanceOf(Collection::class, $collection);
+
+        $this->assertCount(6, $collection);
+    }
+
+    public function testDirsWithNullAndDepthAndParent()
+    {
+        $markdownPages = new MarkdownPages($this->folderPath, $this->config);
+        $collection    = $markdownPages->depth(1)->parent('')->dirs();
+
+        $this->assertInstanceOf(Collection::class, $collection);
+
+        $this->assertCount(3, $collection);
+
+        $first = $collection->first();
+        $this->assertSame('folder', $first->getSlug());
+
+        $next = $collection->next();
+        $this->assertSame('another-best-one', $next->getSlug());
+        $this->assertSame(1, $next->getDepth());
+
+        $next = $collection->next();
+        $this->assertSame('another-one', $next->getSlug());
+        $this->assertSame(1, $next->getDepth());
+    }
+
+    public function testDirsWithParent()
+    {
+        $markdownPages = new MarkdownPages($this->folderPath, $this->config);
+        $collection    = $markdownPages->parent('x-files')->dirs();
+
+        $this->assertInstanceOf(Collection::class, $collection);
+
+        $this->assertCount(3, $collection);
+    }
+
+    public function testDirsWithParentStartWith()
+    {
+        $markdownPages = new MarkdownPages($this->folderPath, $this->config);
+        $collection    = $markdownPages->parent('x*')->dirs();
+
+        $this->assertInstanceOf(Collection::class, $collection);
+
+        $this->assertCount(3, $collection);
+    }
+
+    public function testDirsWithParentArrayNull()
+    {
+        $markdownPages = new MarkdownPages($this->folderPath, $this->config);
+        $collection    = $markdownPages->parent([null])->dirs();
+
+        $this->assertInstanceOf(Collection::class, $collection);
+
+        $this->assertCount(1, $collection);
     }
 
     public function testDirsWhenNothingFound()

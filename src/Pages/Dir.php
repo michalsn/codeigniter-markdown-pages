@@ -10,6 +10,7 @@ class Dir
     protected string $name;
     protected string $slug;
     protected int $depth;
+    protected ?string $parent;
     protected Collection $files;
 
     public function __construct(protected string $dirName, protected string $basePath)
@@ -21,8 +22,11 @@ class Dir
         // Set depth
         $this->depth = $dirName === '' ? 0 : count($paths);
 
+        // Set parent
+        $this->parent = $this->depth > 0 ? implode('/', $this->cleanupArray(array_slice($paths, 0, -1))) : null;
+
         // Set slug
-        $this->slug = implode('/', array_map(fn ($path) => $this->cleanup($path), $paths));
+        $this->slug = implode('/', $this->cleanupArray($paths));
 
         // Set name
         $this->name = humanize($this->cleanup(end($paths)), '-');
@@ -72,6 +76,15 @@ class Dir
     }
 
     /**
+     * Get parent slug/path... not really,
+     * just a string "reference" to parent.
+     */
+    public function getParent(): ?string
+    {
+        return $this->parent;
+    }
+
+    /**
      * Get collection of pages for dir.
      */
     public function getFiles(): Collection
@@ -101,5 +114,13 @@ class Dir
     protected function cleanup(string $name): string
     {
         return str_contains($name, '_') ? explode('_', $name)[1] : $name;
+    }
+
+    /**
+     * Cleanup array.
+     */
+    protected function cleanupArray(array $paths): array
+    {
+        return array_map(fn ($path) => $this->cleanup($path), $paths);
     }
 }
