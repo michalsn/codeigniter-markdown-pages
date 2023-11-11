@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use CodeIgniter\Test\ReflectionHelper;
 use Michalsn\CodeIgniterMarkdownPages\Exceptions\MarkdownPagesException;
 use Michalsn\CodeIgniterMarkdownPages\MarkdownPages;
 use Michalsn\CodeIgniterMarkdownPages\Pages\Dir;
@@ -16,6 +17,8 @@ use Tests\Support\TestCase;
  */
 final class MarkdownPagesTest extends TestCase
 {
+    use ReflectionHelper;
+
     private string $folderPath;
     private MarkdownPagesConfig $config;
 
@@ -311,6 +314,17 @@ final class MarkdownPagesTest extends TestCase
             <p>Content goes here</p>
             EOT;
         $this->assertSame($content, $file->render());
+    }
+
+    public function testFileLoadException()
+    {
+        $this->expectException(MarkdownPagesException::class);
+
+        $markdownPages = new MarkdownPages($this->folderPath, $this->config);
+        $file = $markdownPages->file('folder/file-1');
+
+        $this->setPrivateProperty($file, 'fileName', 'error');
+        $file->load(true);
     }
 
     public function testFileDoesNotExist()
