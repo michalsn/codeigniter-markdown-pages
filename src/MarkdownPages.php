@@ -99,12 +99,10 @@ class MarkdownPages
         }
 
         $collection = $this->pages->filter(static function ($item) use ($value, $depth, $parent, $field) {
-            if ($depth !== null) {
-                if (is_array($depth) ?
-                    ! in_array($item->getDepth(), $depth, true) :
-                    $item->getDepth() > $depth) {
-                    return false;
-                }
+            if ($depth !== null && (is_array($depth) ?
+                ! in_array($item->getDepth(), $depth, true) :
+                $item->getDepth() > $depth)) {
+                return false;
             }
 
             if ($parent !== null) {
@@ -117,10 +115,8 @@ class MarkdownPages
                         if (! str_starts_with((string) $item->getParent(), rtrim($parent, '*'))) {
                             return false;
                         }
-                    } else {
-                        if ($item->getParent() !== $parent) {
-                            return false;
-                        }
+                    } elseif ($item->getParent() !== $parent) {
+                        return false;
                     }
                 }
             }
@@ -176,9 +172,15 @@ class MarkdownPages
 
         foreach ($this->dirs($dirs)->items() as $dir) {
             foreach ($dir->getFiles()->items() as $file) {
+                $score = 0;
+                /** @var File $file */
                 if ($content = $file->load()) {
-                    $content = mb_strtolower((string) $content);
-                    if (($score = mb_substr_count($content, $query)) > 0) {
+                    $content = mb_strtolower($content);
+                    // Search name
+                    $score += mb_substr_count(mb_strtolower($file->getName()), $query);
+                    // Search content
+                    $score += mb_substr_count($content, $query);
+                    if ($score > 0) {
                         $search->add(new Result($file, $score));
                     }
                 }
@@ -188,6 +190,9 @@ class MarkdownPages
         return $search->sortByScore();
     }
 
+    /**
+     * Reset search dirs option.
+     */
     protected function resetOptions(): void
     {
         $this->depth  = null;
