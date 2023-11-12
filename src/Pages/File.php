@@ -10,6 +10,7 @@ class File
     protected string $name;
     protected string $slug;
     protected string $dirNameSlug;
+    protected ?Content $content = null;
 
     public function __construct(
         protected string $fileName,
@@ -120,11 +121,15 @@ class File
      */
     public function parse(bool $parseMarkdown = true): Content
     {
-        $rawContent = $this->load(true);
+        if ($this->content === null) {
+            $rawContent = $this->load(true);
 
-        $document = $this->parser->parse($rawContent, $parseMarkdown);
+            $document = $this->parser->parse($rawContent, $parseMarkdown);
 
-        return new Content($document->getContent(), $document->getYAML() ?? []);
+            $this->content = new Content($document->getContent(), $document->getYAML() ?? []);
+        }
+
+        return $this->content;
     }
 
     /**
