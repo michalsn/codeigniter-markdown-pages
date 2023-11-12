@@ -52,7 +52,7 @@ final class MarkdownPagesCustomExtensionTest extends TestCase
 
         $this->assertInstanceOf(Collection::class, $collection);
 
-        $this->assertCount(1, $collection);
+        $this->assertCount(8, $collection);
 
         $dir = $collection->first();
 

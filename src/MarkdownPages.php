@@ -40,15 +40,24 @@ class MarkdownPages
         $iterator          = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::SELF_FIRST);
 
         foreach ($iterator as $file) {
-            if ($file->isFile() && $file->getExtension() === $config->fileExtension) {
+            if ($file->isFile() && $file->getExtension() !== $config->fileExtension) {
+                continue;
+            }
+
+            if ($file->isDir()) {
+                $folder = $iterator->getSubPath() === '' ? $file->getFilename() : $iterator->getSubPath() . '/' . $file->getFilename();
+            } else {
                 $folder = $iterator->getSubPath();
-                $file   = $file->getFilename();
+            }
 
-                if (! isset($data[$folder])) {
-                    $data[$folder] = new Dir($folder, $folderPath);
-                }
+            $fileName = $file->getFilename();
 
-                $data[$folder]->addFile($file, $parser);
+            if (! isset($data[$folder])) {
+                $data[$folder] = new Dir($folder, $folderPath);
+            }
+
+            if ($file->isFile()) {
+                $data[$folder]->addFile($fileName, $parser);
             }
         }
 

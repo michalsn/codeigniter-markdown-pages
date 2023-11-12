@@ -76,8 +76,8 @@ class Dir
     }
 
     /**
-     * Get parent slug/path... not really,
-     * just a string "reference" to parent.
+     * Get parent slug. A string reference
+     * to the parent.
      */
     public function getParent(): ?string
     {
