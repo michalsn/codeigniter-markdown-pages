@@ -36,27 +36,26 @@ class MarkdownPages
         // Prepare folders and files
         $data = [];
 
-        $directoryIterator = new RecursiveDirectoryIterator($folderPath, FilesystemIterator::SKIP_DOTS);
-        $iterator          = new RecursiveIteratorIterator($directoryIterator, RecursiveIteratorIterator::SELF_FIRST);
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($folderPath, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
 
         foreach ($iterator as $file) {
-            if ($file->isFile() && $file->getExtension() !== $config->fileExtension) {
-                continue;
-            }
+            $subPath  = $iterator->getSubPath();
+            $fileName = $file->getFilename();
 
             if ($file->isDir()) {
-                $folder = $iterator->getSubPath() === '' ? $file->getFilename() : $iterator->getSubPath() . '/' . $file->getFilename();
+                $folder = $subPath === '' ? $fileName : $subPath . '/' . $fileName;
             } else {
-                $folder = $iterator->getSubPath();
+                $folder = $subPath;
             }
-
-            $fileName = $file->getFilename();
 
             if (! isset($data[$folder])) {
                 $data[$folder] = new Dir($folder, $folderPath);
             }
 
-            if ($file->isFile()) {
+            if ($file->isFile() && $file->getExtension() === $config->fileExtension) {
                 $data[$folder]->addFile($fileName, $parser);
             }
         }
@@ -175,7 +174,7 @@ class MarkdownPages
     /**
      * Search through the files.
      */
-    public function search(string $query, string|array|null $dirs = null): Results
+    public function search(string $query, string|array|null $dirs = null, array $keys = []): Results
     {
         $search = new Results($query);
 
@@ -185,10 +184,10 @@ class MarkdownPages
                 /** @var File $file */
                 if ($content = $file->load()) {
                     $content = mb_strtolower($content);
-                    // Search name
+                    // Search file name
                     $score += mb_substr_count(mb_strtolower($file->getName()), $query);
                     // Search content
-                    $score += mb_substr_count($content, $query);
+                    $score += $file->search($query, $content, $keys);
                     if ($score > 0) {
                         $search->add(new Result($file, $score));
                     }

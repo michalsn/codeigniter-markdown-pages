@@ -116,13 +116,23 @@ class File
     }
 
     /**
-     * Render content of the file.
+     * Parse content of the file.
      */
-    public function render(): string
+    public function parse(): Content
     {
         $content = $this->load(true);
 
         return $this->parser->parse($content);
+    }
+
+    /**
+     * Search for query in the file content.
+     */
+    public function search(string $query, ?string $content = null, array $keys = []): int
+    {
+        $content ??= $this->load(true);
+
+        return $this->parser->search($query, $content, $keys);
     }
 
     /**

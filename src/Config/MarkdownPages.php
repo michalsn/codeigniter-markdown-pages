@@ -4,6 +4,7 @@ namespace Michalsn\CodeIgniterMarkdownPages\Config;
 
 use CodeIgniter\Config\BaseConfig;
 use Michalsn\CodeIgniterMarkdownPages\Handlers\DummyHandler;
+use Michalsn\CodeIgniterMarkdownPages\Handlers\FrontYamlHandler;
 use Michalsn\CodeIgniterMarkdownPages\Handlers\ParsedownHandler;
 
 class MarkdownPages extends BaseConfig
@@ -18,6 +19,7 @@ class MarkdownPages extends BaseConfig
      */
     public array $handlers = [
         'dummy'     => DummyHandler::class,
+        'frontyaml' => FrontYamlHandler::class,
         'parsedown' => ParsedownHandler::class,
     ];
 

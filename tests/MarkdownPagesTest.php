@@ -5,6 +5,7 @@ namespace Tests;
 use CodeIgniter\Test\ReflectionHelper;
 use Michalsn\CodeIgniterMarkdownPages\Exceptions\MarkdownPagesException;
 use Michalsn\CodeIgniterMarkdownPages\MarkdownPages;
+use Michalsn\CodeIgniterMarkdownPages\Pages\Content;
 use Michalsn\CodeIgniterMarkdownPages\Pages\Dir;
 use Michalsn\CodeIgniterMarkdownPages\Pages\File;
 use Michalsn\CodeIgniterMarkdownPages\Search\Results;
@@ -320,19 +321,22 @@ final class MarkdownPagesTest extends TestCase
 
         $this->assertSame('folder/file-1', $file->urlPath());
 
-        $content = <<<'EOT'
+        $rawContent = <<<'EOT'
             # File 1
 
             Content goes here
 
             EOT;
-        $this->assertSame($content, $file->load());
+        $this->assertSame($rawContent, $file->load());
 
-        $content = <<<'EOT'
+        $content = $file->parse();
+        $this->assertInstanceOf(Content::class, $content);
+
+        $parsedContent = <<<'EOT'
             <h1>File 1</h1>
             <p>Content goes here</p>
             EOT;
-        $this->assertSame($content, $file->render());
+        $this->assertSame($parsedContent, $content->getContent());
     }
 
     public function testFileLoadException()
