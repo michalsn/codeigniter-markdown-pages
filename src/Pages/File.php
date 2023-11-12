@@ -135,9 +135,9 @@ class File
     /**
      * Search for query in the file content.
      */
-    public function search(string $query, ?string $rawContent = null, array $metaKeys = []): int
+    public function search(string $query, array $metaKeys = []): int
     {
-        $rawContent ??= $this->load(true);
+        $rawContent = mb_strtolower($this->load(true));
 
         $document = $this->parser->parse($rawContent, false);
         $content  = new Content($document->getContent(), $document->getYAML() ?? []);

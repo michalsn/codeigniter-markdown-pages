@@ -179,17 +179,10 @@ class MarkdownPages
 
         foreach ($this->dirs($dirs)->items() as $dir) {
             foreach ($dir->getFiles()->items() as $file) {
-                $score = 0;
-                /** @var File $file */
-                if ($content = $file->load()) {
-                    $content = mb_strtolower($content);
-                    // Search file name
-                    $score += mb_substr_count(mb_strtolower($file->getName()), $query);
-                    // Search content
-                    $score += $file->search($query, $content, $keys);
-                    if ($score > 0) {
-                        $search->add(new Result($file, $score));
-                    }
+                // Search content
+                $score = $file->search($query, $keys);
+                if ($score > 0) {
+                    $search->add(new Result($file, $score));
                 }
             }
         }
