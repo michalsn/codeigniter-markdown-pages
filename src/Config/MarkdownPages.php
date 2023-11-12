@@ -3,25 +3,22 @@
 namespace Michalsn\CodeIgniterMarkdownPages\Config;
 
 use CodeIgniter\Config\BaseConfig;
-use Michalsn\CodeIgniterMarkdownPages\Handlers\DummyHandler;
-use Michalsn\CodeIgniterMarkdownPages\Handlers\FrontYamlHandler;
-use Michalsn\CodeIgniterMarkdownPages\Handlers\ParsedownHandler;
 
 class MarkdownPages extends BaseConfig
 {
     /**
-     * The default parser handler.
+     * YAML Parser.
+     *
+     * By default, uses Symfony's YAML parser.
      */
-    public string $defaultHandler = 'parsedown';
+    public ?string $yamlParser = null;
 
     /**
-     * Available parser handlers.
+     * Markdown Parser.
+     *
+     * By default, uses League CommonMark parser.
      */
-    public array $handlers = [
-        'dummy'     => DummyHandler::class,
-        'frontyaml' => FrontYamlHandler::class,
-        'parsedown' => ParsedownHandler::class,
-    ];
+    public ?string $markdownParser = null;
 
     /**
      * Files with this extension will be taken

@@ -3,7 +3,7 @@
     "description": "Markdown pages for CodeIgniter 4 framework",
     "license": "MIT",
     "type": "library",
-    "keywords": ["codeigniter", "codeigniter4", "markdown", "file", "pages"],
+    "keywords": ["codeigniter", "codeigniter4", "markdown", "yaml", "file"],
     "authors": [
         {
             "name": "michalsn",
@@ -14,8 +14,8 @@
     "homepage": "https://github.com/michalsn/codeigniter-markdown-pages",
     "require": {
         "php": "^8.1",
-        "myth/collection": "dev-master",
-        "erusev/parsedown": "^1.7"
+        "mnapoli/front-yaml": "^2.0",
+        "myth/collection": "dev-master"
     },
     "require-dev": {
         "codeigniter4/devkit": "^1.0",

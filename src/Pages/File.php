@@ -3,7 +3,7 @@
 namespace Michalsn\CodeIgniterMarkdownPages\Pages;
 
 use Michalsn\CodeIgniterMarkdownPages\Exceptions\MarkdownPagesException;
-use Michalsn\CodeIgniterMarkdownPages\Interfaces\HandlerInterface;
+use Mni\FrontYAML\Parser;
 
 class File
 {
@@ -16,7 +16,7 @@ class File
         protected string $dirName,
         protected string $basePath,
         protected int $depth,
-        protected HandlerInterface $parser
+        protected Parser $parser
     ) {
         helper('inflector');
 
@@ -118,21 +118,40 @@ class File
     /**
      * Parse content of the file.
      */
-    public function parse(): Content
+    public function parse(bool $parseMarkdown = true): Content
     {
-        $content = $this->load(true);
+        $rawContent = $this->load(true);
 
-        return $this->parser->parse($content);
+        $document = $this->parser->parse($rawContent, $parseMarkdown);
+
+        return new Content($document->getContent(), $document->getYAML() ?? []);
     }
 
     /**
      * Search for query in the file content.
      */
-    public function search(string $query, ?string $content = null, array $keys = []): int
+    public function search(string $query, ?string $rawContent = null, array $metaKeys = []): int
     {
-        $content ??= $this->load(true);
+        $rawContent ??= $this->load(true);
 
-        return $this->parser->search($query, $content, $keys);
+        $document = $this->parser->parse($rawContent, false);
+        $content  = new Content($document->getContent(), $document->getYAML() ?? []);
+
+        $score = 0;
+        $score += mb_substr_count($this->getName(), $query);
+        $score += mb_substr_count($content->getContent(), $query);
+
+        if ($metaKeys === []) {
+            return $score;
+        }
+
+        foreach ($metaKeys as $metaKey) {
+            if ($content->hasMetaKey($metaKey)) {
+                $score += mb_substr_count(mb_strtolower((string) $content->getMeta($metaKey)), $query);
+            }
+        }
+
+        return $score;
     }
 
     /**

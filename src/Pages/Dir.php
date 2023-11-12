@@ -2,7 +2,7 @@
 
 namespace Michalsn\CodeIgniterMarkdownPages\Pages;
 
-use Michalsn\CodeIgniterMarkdownPages\Interfaces\HandlerInterface;
+use Mni\FrontYAML\Parser;
 use Myth\Collection\Collection;
 
 class Dir
@@ -38,7 +38,7 @@ class Dir
     /**
      * Add file to the collection.
      */
-    public function addFile(string $page, HandlerInterface $parser): static
+    public function addFile(string $page, Parser $parser): static
     {
         $this->files->push(new File(
             $page,

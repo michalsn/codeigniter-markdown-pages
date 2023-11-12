@@ -2,7 +2,6 @@
 
 namespace Michalsn\CodeIgniterMarkdownPages;
 
-use FilesystemIterator;
 use Michalsn\CodeIgniterMarkdownPages\Config\MarkdownPages as MarkdownPagesConfig;
 use Michalsn\CodeIgniterMarkdownPages\Enums\SearchField;
 use Michalsn\CodeIgniterMarkdownPages\Exceptions\MarkdownPagesException;
@@ -10,6 +9,7 @@ use Michalsn\CodeIgniterMarkdownPages\Pages\Dir;
 use Michalsn\CodeIgniterMarkdownPages\Pages\File;
 use Michalsn\CodeIgniterMarkdownPages\Search\Result;
 use Michalsn\CodeIgniterMarkdownPages\Search\Results;
+use Mni\FrontYAML\Parser;
 use Myth\Collection\Collection;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -26,12 +26,11 @@ class MarkdownPages
             throw MarkdownPagesException::forIncorrectFolderPath();
         }
 
-        if (! isset($config->handlers[$config->defaultHandler])) {
-            throw MarkdownPagesException::forIncorrectHandler();
-        }
-
         // Parser
-        $parser = new $config->handlers[$config->defaultHandler]();
+        $parser = new Parser(
+            $config->yamlParser !== null ? new $config->yamlParser() : null,
+            $config->markdownParser !== null ? new $config->markdownParser() : null
+        );
 
         // Prepare folders and files
         $data = [];

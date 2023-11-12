@@ -8,6 +8,7 @@ use Michalsn\CodeIgniterMarkdownPages\MarkdownPages;
 use Michalsn\CodeIgniterMarkdownPages\Pages\Content;
 use Michalsn\CodeIgniterMarkdownPages\Pages\Dir;
 use Michalsn\CodeIgniterMarkdownPages\Pages\File;
+use Michalsn\CodeIgniterMarkdownPages\Search\Result;
 use Michalsn\CodeIgniterMarkdownPages\Search\Results;
 use Myth\Collection\Collection;
 use Tests\Support\Config\MarkdownPages as MarkdownPagesConfig;
@@ -43,16 +44,6 @@ final class MarkdownPagesTest extends TestCase
         $this->expectExceptionMessage('The $folderPath provided to the constructor is incorrect or not a folder.');
 
         new MarkdownPages(SUPPORTPATH . 'incorrect', $this->config);
-    }
-
-    public function testMarkdownPagesIncorrectHandlerException()
-    {
-        $this->expectException(MarkdownPagesException::class);
-        $this->expectExceptionMessage('This markdown handler is incorrect.');
-
-        $this->config->defaultHandler = 'incorrect';
-
-        new MarkdownPages($this->folderPath, $this->config);
     }
 
     public function testDir()
@@ -335,6 +326,7 @@ final class MarkdownPagesTest extends TestCase
         $parsedContent = <<<'EOT'
             <h1>File 1</h1>
             <p>Content goes here</p>
+
             EOT;
         $this->assertSame($parsedContent, $content->getContent());
     }
@@ -356,6 +348,33 @@ final class MarkdownPagesTest extends TestCase
         $file          = $markdownPages->file('folder/file-11111');
 
         $this->assertNull($file);
+    }
+
+    public function testFileWithHtmlExtension()
+    {
+        $this->config->fileExtension = 'html';
+        $markdownPages               = new MarkdownPages($this->folderPath, $this->config);
+        $file                        = $markdownPages->file('folder/surprise');
+
+        $this->assertInstanceOf(File::class, $file);
+        $this->assertSame('Surprise', $file->getName());
+        $this->assertSame('surprise', $file->getSlug());
+        $this->assertSame('1_folder', $file->getDirName());
+        $this->assertSame('folder', $file->getDirNameSlug());
+
+        $this->assertSame('folder/surprise', $file->urlPath());
+
+        $rawContent = <<<'EOT'
+            <h1>Surprise</h1>
+
+            <p>Html extension</p>
+
+            EOT;
+        $this->assertSame($rawContent, $file->load());
+
+        $content = $file->parse(false);
+        $this->assertInstanceOf(Content::class, $content);
+        $this->assertSame($rawContent, $content->getContent());
     }
 
     public function testSearch()
@@ -397,6 +416,42 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('file-1', $result->getFile()->getSlug());
         $this->assertSame('folder/file-1', $result->getFile()->urlPath());
         $this->assertSame(1, $result->getScore());
+    }
+
+    public function testSearchWithKeys()
+    {
+        $markdownPages = new MarkdownPages($this->folderPath, $this->config);
+        $results       = $markdownPages->search('title', null, ['title']);
+        $this->assertInstanceOf(Results::class, $results);
+
+        $this->assertCount(1, $results->getResults());
+
+        $result = $results->getResults()->first();
+        $this->assertInstanceOf(Result::class, $result);
+        $this->assertSame(2, $result->getScore());
+
+        $file = $result->getFile();
+        $this->assertInstanceOf(File::class, $file);
+
+        $this->assertSame('A Last One', $file->getName());
+        $this->assertSame('another-one/a-last-one', $file->urlPath());
+
+        $content = $file->parse();
+        $this->assertInstanceOf(Content::class, $content);
+
+        $parsedContent = <<<'EOT'
+            <h2>A last one</h2>
+            <p>the last page title is above</p>
+
+            EOT;
+        $this->assertSame($parsedContent, $content->getContent());
+
+        $meta = [
+            'title' => 'Sample title',
+        ];
+        $this->assertSame($meta, $content->getMeta());
+        $this->assertSame($meta['title'], $content->getMeta('title'));
+        $this->assertNull($content->getMeta('invalid'));
     }
 
     public function testSearchWhenNothingFound()

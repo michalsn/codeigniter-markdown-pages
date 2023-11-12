@@ -22,7 +22,6 @@ class Content
         return $this->meta[$key] ?? null;
     }
 
-
     public function hasMetaKey(string $key): bool
     {
         return array_key_exists($key, $this->meta);
