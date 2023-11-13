@@ -56,10 +56,10 @@ This method allow us to retrieve the folders we loaded. There are a couple of wa
 ##### Parameters
 
 * `$slug` (optional) - We can use:
-  * The default `null` value. To get all the folders.
-  * A simple **string**: `'quick-start/subfolder'`, to get the certain folder.
-  * A **string with wildcard**: `'quick-start*'`, to get all the folders that include this slug.
-  * An **array** of folders: `['quick-start/subfolder', 'first-steps']`, to get may folders.
+    * The default `null` value. To get all the folders.
+    * A simple **string**: `'quick-start/subfolder'`, to get the certain folder.
+    * A **string with wildcard**: `'quick-start*'`, to get all the folders that include this slug.
+    * An **array** of folders: `['quick-start/subfolder', 'first-steps']`, to get may folders.
 
 ##### Examples
 
