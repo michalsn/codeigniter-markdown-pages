@@ -24,8 +24,8 @@ Sorts the results by score.
 ##### Parameters
 
 * `$sort` (optional) - Determine the order for results.
-  * `ScoreSortOrder::ASC` - Ascending order
-  * `ScoreSortOrder::DESC` - Descending order (default)
+    * `ScoreSortOrder::ASC` - Ascending order
+    * `ScoreSortOrder::DESC` - Descending order (default)
 
 ## Result class
 

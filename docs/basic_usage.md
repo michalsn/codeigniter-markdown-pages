@@ -137,10 +137,10 @@ This method will search for a given sentence and return a `Results` class. The s
 
 * `$query` - The search query.
 * `$dir` (optional) - We can use:
-  * The default `null` value. To get all the folders.
-  * A simple **string**: `'quick-start/subfolder'`, to get the certain folder.
-  * A **string with wildcard**: `'quick-start*'`, to get all the folders that include this slug.
-  * An **array** of folders: `['quick-start/subfolder', 'first-steps']`, to get may folders.
+    * The default `null` value. To get all the folders.
+    * A simple **string**: `'quick-start/subfolder'`, to get the certain folder.
+    * A **string with wildcard**: `'quick-start*'`, to get all the folders that include this slug.
+    * An **array** of folders: `['quick-start/subfolder', 'first-steps']`, to get may folders.
 * `$metaKeys` (optional) - An array of meta keys to be considered when searching for a query. You have to use YAML part in your files to make it work. Default value: `[]` (empty array)
 
 ##### Examples
@@ -211,8 +211,8 @@ It will act differently depending on what value will be passed.
 ##### Parameters
 
 * `$depth` - It can be:
-  * **int** - will include all folders that depth is smaller than provided value (including that number).
-  * **array** - will include folders only from given depth.
+    * **int** - will include all folders that depth is smaller than provided value (including that number).
+    * **array** - will include folders only from given depth.
 
 ##### Examples
 
@@ -231,9 +231,9 @@ It will act differently depending on what value will be passed.
 ##### Parameters
 
 * `$parent` - It can be:
-  * **string** - will include folders only with that parent.
-  * **string with wildcard** - will include all the folders which parent match the pattern.
-  * **array** - will include all folders which has parent listed in the array
+    * **string** - will include folders only with that parent.
+    * **string with wildcard** - will include all the folders which parent match the pattern.
+    * **array** - will include all folders which has parent listed in the array
 
 ##### Examples
 
