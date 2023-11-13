@@ -79,9 +79,9 @@ class MarkdownPages
     /**
      * Get dir based on value.
      */
-    public function dir(string|array $value): ?Dir
+    public function dir(string|array $slug): ?Dir
     {
-        $dirs = $this->dirs($value);
+        $dirs = $this->dirs($slug);
 
         if ($dirs->isEmpty()) {
             return null;
@@ -93,16 +93,16 @@ class MarkdownPages
     /**
      * Get dirs based on value.
      */
-    public function dirs(string|array|null $value = null): Collection
+    public function dirs(string|array|null $slug = null): Collection
     {
         $depth  = $this->depth;
         $parent = $this->parent;
 
-        if ($value === null && $depth === null && $parent === null) {
+        if ($slug === null && $depth === null && $parent === null) {
             return $this->pages;
         }
 
-        $collection = $this->pages->filter(static function ($item) use ($value, $depth, $parent) {
+        $collection = $this->pages->filter(static function ($item) use ($slug, $depth, $parent) {
             if ($depth !== null && (is_array($depth) ?
                 ! in_array($item->getDepth(), $depth, true) :
                 $item->getDepth() > $depth)) {
@@ -125,19 +125,19 @@ class MarkdownPages
                 }
             }
 
-            if ($value === null) {
+            if ($slug === null) {
                 return true;
             }
 
-            if (is_array($value)) {
-                return in_array($item->getSlug(), $value, true);
+            if (is_array($slug)) {
+                return in_array($item->getSlug(), $slug, true);
             }
 
-            if (str_contains($value, '*')) {
-                return str_starts_with((string) $item->getSlug(), rtrim($value, '*'));
+            if (str_contains($slug, '*')) {
+                return str_starts_with((string) $item->getSlug(), rtrim($slug, '*'));
             }
 
-            return $item->getSlug() === $value;
+            return $item->getSlug() === $slug;
         });
 
         // Reset options
@@ -149,14 +149,14 @@ class MarkdownPages
     /**
      * Get file based on value.
      */
-    public function file(string $value): ?File
+    public function file(string $slug): ?File
     {
-        $segments = explode('/', $value);
+        $segments = explode('/', $slug);
 
         if (count($segments) === 1) {
             $folder = '';
         } else {
-            $value  = array_pop($segments);
+            $slug   = array_pop($segments);
             $folder = implode('/', $segments);
         }
 
@@ -164,20 +164,20 @@ class MarkdownPages
             return null;
         }
 
-        return $dir->getFiles()->find(static fn ($item) => $item->getSlug() === $value);
+        return $dir->getFiles()->find(static fn ($item) => $item->getSlug() === $slug);
     }
 
     /**
      * Search through the files.
      */
-    public function search(string $query, string|array|null $dirs = null, array $keys = []): Results
+    public function search(string $query, string|array|null $dirs = null, array $metaKeys = []): Results
     {
         $search = new Results($query);
 
         foreach ($this->dirs($dirs)->items() as $dir) {
             foreach ($dir->getFiles()->items() as $file) {
                 // Search content
-                $score = $file->search($query, $keys);
+                $score = $file->search($query, $metaKeys);
                 if ($score > 0) {
                     $search->getResults()->push(new Result($file, $score));
                 }
