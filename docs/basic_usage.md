@@ -2,13 +2,13 @@
 
 - [New Instance](#new-instance)
 - [Main Methods](#main-methods)
-  - [dirs()](#dirs)
-  - [dir()](#dir)
-  - [search()](#search)
-  - [file()](#file)
+    - [dirs()](#dirs)
+    - [dir()](#dir)
+    - [search()](#search)
+    - [file()](#file)
 - [Helper Methods](#helper-methods)
-  - [depth()](#depth)
-  - [parent()](#parent)
+    - [depth()](#depth)
+    - [parent()](#parent)
 
 ## New Instance
 
