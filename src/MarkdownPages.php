@@ -179,7 +179,7 @@ class MarkdownPages
                 // Search content
                 $score = $file->search($query, $keys);
                 if ($score > 0) {
-                    $search->add(new Result($file, $score));
+                    $search->getResults()->push(new Result($file, $score));
                 }
             }
         }

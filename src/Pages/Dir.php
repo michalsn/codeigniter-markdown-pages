@@ -148,19 +148,19 @@ class Dir
     }
 
     /**
+     * Does dir have files.
+     */
+    public function hasFiles(): bool
+    {
+        return ! $this->files->isEmpty();
+    }
+
+    /**
      * Get dir name.
      */
     public function getDirName(): string
     {
         return $this->dirName;
-    }
-
-    /**
-     * Get base path.
-     */
-    public function getBasePath(): string
-    {
-        return $this->basePath;
     }
 
     /**

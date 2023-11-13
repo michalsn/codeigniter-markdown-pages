@@ -15,13 +15,19 @@ class Results
     }
 
     /**
-     * Add file to results.
+     * Get search query.
      */
-    public function add(Result $file): static
+    public function getQuery(): string
     {
-        $this->results->push($file);
+        return $this->query;
+    }
 
-        return $this;
+    /**
+     * Get results collection.
+     */
+    public function getResults(): Collection
+    {
+        return $this->results;
     }
 
     /**
@@ -36,21 +42,5 @@ class Results
         $this->results = $this->results->{$sort->value}(static fn ($result) => $result->getScore());
 
         return $this;
-    }
-
-    /**
-     * Get search query.
-     */
-    public function getQuery(): string
-    {
-        return $this->query;
-    }
-
-    /**
-     * Get results collection.
-     */
-    public function getResults(): Collection
-    {
-        return $this->results;
     }
 }

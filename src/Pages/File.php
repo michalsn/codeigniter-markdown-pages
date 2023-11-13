@@ -78,14 +78,6 @@ class File
     }
 
     /**
-     * Get base path.
-     */
-    public function getBasePath(): string
-    {
-        return $this->basePath;
-    }
-
-    /**
      * Get url path for file.
      */
     public function urlPath(): string
@@ -101,7 +93,7 @@ class File
         $path = implode(
             DIRECTORY_SEPARATOR,
             [
-                $this->getBasePath(), $this->getDirName(), $this->getFileName(),
+                $this->basePath, $this->getDirName(), $this->getFileName(),
             ]
         );
 

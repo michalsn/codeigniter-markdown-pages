@@ -60,6 +60,7 @@ final class MarkdownPagesTest extends TestCase
         $this->assertFalse($dir->hasChildren());
         $this->assertSame([], $dir->getChildren());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
+        $this->assertTrue($dir->hasFiles());
         $this->assertCount(3, $dir->getFiles());
     }
 
