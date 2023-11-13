@@ -135,7 +135,7 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('x-files/cigarette-smoking-man', $collection->next()->getSlug());
         $this->assertSame('x-files/fox-mulder', $collection->next()->getSlug());
         $this->assertSame('another-best-one', $collection->next()->getSlug());
-        $this->assertSame('another-best-one/empty', $collection->next()->getSlug());
+        $this->assertSame('another-best-one/empty-folder', $collection->next()->getSlug());
         $this->assertSame('another-one', $collection->next()->getSlug());
     }
 
@@ -286,9 +286,9 @@ final class MarkdownPagesTest extends TestCase
 
         $dir = $collection->next();
 
-        $this->assertSame('Empty', $dir->getName());
-        $this->assertSame('another-best-one/empty', $dir->getSlug());
-        $this->assertSame('another-best-one/empty', $dir->getDirName());
+        $this->assertSame('Empty Folder', $dir->getName());
+        $this->assertSame('another-best-one/empty-folder', $dir->getSlug());
+        $this->assertSame('another-best-one/empty-folder', $dir->getDirName());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
         $this->assertTrue($dir->getFiles()->isEmpty());
         $this->assertInstanceOf(Dir::class, $dir);
