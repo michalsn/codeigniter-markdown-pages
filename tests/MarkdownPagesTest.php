@@ -56,6 +56,9 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('Folder', $dir->getName());
         $this->assertSame('folder', $dir->getSlug());
         $this->assertSame('1_folder', $dir->getDirName());
+        $this->assertTrue($dir->hasParent());
+        $this->assertFalse($dir->hasChildren());
+        $this->assertSame([], $dir->getChildren());
         $this->assertInstanceOf(Collection::class, $dir->getFiles());
         $this->assertCount(3, $dir->getFiles());
     }
@@ -309,6 +312,7 @@ final class MarkdownPagesTest extends TestCase
         $this->assertSame('file-1', $file->getSlug());
         $this->assertSame('1_folder', $file->getDirName());
         $this->assertSame('folder', $file->getDirNameSlug());
+        $this->assertSame(1, $file->getDepth());
 
         $this->assertSame('folder/file-1', $file->urlPath());
 
