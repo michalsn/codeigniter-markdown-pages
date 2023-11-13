@@ -51,4 +51,6 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Configuration: configuration.md
-  - Basic Usage: basic-usage.md
+  - Basic Usage: basic_usage.md
+  - Pages: pages.md
+  - Search: search.md
