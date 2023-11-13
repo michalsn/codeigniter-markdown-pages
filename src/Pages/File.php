@@ -162,7 +162,7 @@ class File
     /**
      * Cleanup name.
      */
-    protected function cleanup(string $name): string
+    private function cleanup(string $name): string
     {
         $name = pathinfo($name, PATHINFO_FILENAME);
 

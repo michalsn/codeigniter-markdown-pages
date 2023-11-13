@@ -33,7 +33,7 @@ class MarkdownPages
         );
 
         // Prepare folders and files
-        $data = [];
+        $this->pages = new Collection([]);
 
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($folderPath, RecursiveDirectoryIterator::SKIP_DOTS),
@@ -41,7 +41,12 @@ class MarkdownPages
         );
 
         foreach ($iterator as $file) {
-            $subPath  = $iterator->getSubPath();
+            $subPath = $iterator->getSubPath();
+
+            if ($file->isFile() && $subPath !== '') {
+                continue;
+            }
+
             $fileName = $file->getFilename();
 
             if ($file->isDir()) {
@@ -50,17 +55,10 @@ class MarkdownPages
                 $folder = $subPath;
             }
 
-            if (! isset($data[$folder])) {
-                $data[$folder] = new Dir($folder, $folderPath);
-            }
-
-            if ($file->isFile() && $file->getExtension() === $config->fileExtension) {
-                $data[$folder]->addFile($fileName, $parser);
-            }
+            $this->pages->push(new Dir($folder, $folderPath, $config->fileExtension, $parser));
         }
 
         // Sort
-        $this->pages = new Collection(array_values($data));
         $this->pages = $this->pages->sort(static fn ($dir) => $dir->getDirName());
         $this->pages->each(static fn ($dir) => $dir->getFiles()->sort(static fn ($file) => $file->getFileName()));
     }
