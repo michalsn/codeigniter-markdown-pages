@@ -3,7 +3,6 @@
 namespace Michalsn\CodeIgniterMarkdownPages;
 
 use Michalsn\CodeIgniterMarkdownPages\Config\MarkdownPages as MarkdownPagesConfig;
-use Michalsn\CodeIgniterMarkdownPages\Enums\SearchField;
 use Michalsn\CodeIgniterMarkdownPages\Exceptions\MarkdownPagesException;
 use Michalsn\CodeIgniterMarkdownPages\Pages\Dir;
 use Michalsn\CodeIgniterMarkdownPages\Pages\File;
@@ -80,9 +79,9 @@ class MarkdownPages
     /**
      * Get dir based on value.
      */
-    public function dir(string|array $value, SearchField $field = SearchField::SLUG): ?Dir
+    public function dir(string|array $value): ?Dir
     {
-        $dirs = $this->dirs($value, $field);
+        $dirs = $this->dirs($value);
 
         if ($dirs->isEmpty()) {
             return null;
@@ -94,7 +93,7 @@ class MarkdownPages
     /**
      * Get dirs based on value.
      */
-    public function dirs(string|array|null $value = null, SearchField $field = SearchField::SLUG): Collection
+    public function dirs(string|array|null $value = null): Collection
     {
         $depth  = $this->depth;
         $parent = $this->parent;
@@ -103,7 +102,7 @@ class MarkdownPages
             return $this->pages;
         }
 
-        $collection = $this->pages->filter(static function ($item) use ($value, $depth, $parent, $field) {
+        $collection = $this->pages->filter(static function ($item) use ($value, $depth, $parent) {
             if ($depth !== null && (is_array($depth) ?
                 ! in_array($item->getDepth(), $depth, true) :
                 $item->getDepth() > $depth)) {
@@ -131,14 +130,14 @@ class MarkdownPages
             }
 
             if (is_array($value)) {
-                return in_array($item->{$field->value}(), $value, true);
+                return in_array($item->getSlug(), $value, true);
             }
 
             if (str_contains($value, '*')) {
-                return str_starts_with((string) $item->{$field->value}(), rtrim($value, '*'));
+                return str_starts_with((string) $item->getSlug(), rtrim($value, '*'));
             }
 
-            return $item->{$field->value}() === $value;
+            return $item->getSlug() === $value;
         });
 
         // Reset options
@@ -150,7 +149,7 @@ class MarkdownPages
     /**
      * Get file based on value.
      */
-    public function file(string $value, SearchField $field = SearchField::SLUG): ?File
+    public function file(string $value): ?File
     {
         $segments = explode('/', $value);
 
@@ -165,7 +164,7 @@ class MarkdownPages
             return null;
         }
 
-        return $dir->getFiles()->find(static fn ($item) => $item->{$field->value}() === $value);
+        return $dir->getFiles()->find(static fn ($item) => $item->getSlug() === $value);
     }
 
     /**
