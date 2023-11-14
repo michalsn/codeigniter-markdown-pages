@@ -56,7 +56,7 @@ foreach($dir->getFiles()->items() as $file) {
     echo $file->getSlug();
     // prints: installation
 
-    echo $file->urlPath();
+    echo $file->getPath();
     // prints: quick-start/installation
 
     echo $content->parse()->getContent();
