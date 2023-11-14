@@ -12,9 +12,9 @@ We will get our copy ready for modifications.
 
 Available options:
 
-- [$yamlParser](#yamlParser)
-- [$markdownParser](#markdownParser)
-- [$fileExtension](#fileExtension)
+- [$yamlParser](#$yamlParser)
+- [$markdownParser](#$markdownParser)
+- [$fileExtension](#$fileExtension)
 
 ### $yamlParser
 

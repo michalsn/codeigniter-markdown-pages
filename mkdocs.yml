@@ -54,3 +54,9 @@ nav:
   - Basic Usage: basic_usage.md
   - Pages: pages.md
   - Search: search.md
+  - Classes:
+      - Dir: classes/dir.md
+      - File: classes/file.md
+      - Content: classes/content.md
+      - Results: classes/results.md
+      - Result: classes/result.md

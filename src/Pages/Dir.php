@@ -10,6 +10,7 @@ class Dir
 {
     protected string $name;
     protected string $slug;
+    protected string $path;
     protected int $depth;
     protected ?string $parent;
     protected array $children;
@@ -23,19 +24,23 @@ class Dir
     ) {
         helper('inflector');
 
-        $paths = explode('/', $dirName);
+        // Prepare cleanup paths
+        $paths = $this->cleanupArray(explode('/', $dirName));
 
         // Set depth
         $this->depth = $dirName === '' ? 0 : count($paths);
 
         // Set parent
-        $this->parent = $this->depth > 0 ? implode('/', $this->cleanupArray(array_slice($paths, 0, -1))) : null;
+        $this->parent = $this->depth > 0 ? implode('/', array_slice($paths, 0, -1)) : null;
+
+        // Set path
+        $this->path = implode('/', $paths);
 
         // Set slug
-        $this->slug = implode('/', $this->cleanupArray($paths));
+        $this->slug = implode('/', array_slice($paths, -1, 1));
 
         // Set name
-        $this->name = humanize($this->cleanup(end($paths)), '-');
+        $this->name = humanize($this->slug, '-');
 
         // Init files
         $this->files = new Collection([]);
@@ -95,6 +100,14 @@ class Dir
     public function getSlug(): string
     {
         return $this->slug;
+    }
+
+    /**
+     * Get path.
+     */
+    public function getPath(): string
+    {
+        return $this->path;
     }
 
     /**

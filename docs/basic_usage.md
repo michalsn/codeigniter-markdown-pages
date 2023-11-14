@@ -39,7 +39,7 @@ This directory structure will be a good reference for explaining of how things w
         └── second-file.md
 ```
 
-As you may notice some folders and files are prefixed with the number. This number is used strictly for ordering purposes and is not used when determining the `slug` or `urlPath` for the directories and files.
+As you may notice some folders and files are prefixed with the number. This number is used strictly for ordering purposes and is not used when determining the `slug` or `path` for the directories and files.
 
 !!! note
 
@@ -55,22 +55,22 @@ This method allow us to retrieve the folders we loaded. There are a couple of wa
 
 ##### Parameters
 
-* `$slug` (optional) - We can use:
+* `$path` (optional) - We can use:
     * The default `null` value. To get all the folders.
     * A simple **string**: `'quick-start/subfolder'`, to get the certain folder.
-    * A **string with wildcard**: `'quick-start*'`, to get all the folders that include this slug.
+    * A **string with wildcard**: `'quick-start*'`, to get all the folders that include this path.
     * An **array** of folders: `['quick-start/subfolder', 'first-steps']`, to get may folders.
 
 ##### Examples
 
-This method will always return a Collection of folders (`Dir` classes). Learn more about the [Dir](pages.md) class.
+This method will always return a Collection of folders (`Dir` classes). Learn more about the [Dir](classes/dir.md) class.
 
 ```php
 // returns Collection class with Dir classes
 $markdownPages->dirs();
 ```
 
-This will return a Collection of all folders that belongs to given folder slug wildcard. In this case: `quick-start` and `subfolder`.
+This will return a Collection of all folders that belongs to given folder path wildcard. In this case: `quick-start` and `subfolder`.
 
 ```php
 // returns Collection class with Dir classes
@@ -79,7 +79,7 @@ $markdownPages->dirs('quick-start*');
 
 We can also use helper methods to make more complicated operations.
 
-This will return a Collection of all folders that belongs to given folder slug wildcard and are at the given depth. The result will include: `subfolder`.
+This will return a Collection of all folders that belongs to given folder path wildcard and are at the given depth. The result will include: `subfolder`.
 
 ```php
 // returns Collection class with Dir classes
@@ -101,9 +101,9 @@ It will also not accept the `null` value as a parameter.
 
 ##### Parameters
 
-* `$slug` - We can use:
+* `$path` - We can use:
     * A simple **string**: `'quick-start/subfolder'`, to get the certain folder.
-    * A **string with wildcard**: `'quick-start*'`, to get all the folders that include this slug.
+    * A **string with wildcard**: `'quick-start*'`, to get all the folders that include this path.
     * An **array** of folders: `['quick-start/subfolder', 'first-steps']`, to get may folders.
 
 ##### Examples
@@ -123,7 +123,7 @@ $dir->getFiles();
 
 When using a wildcard or any other parameter that can result in matching multiple folders, the first one is returned.
 
-Learn more about the [Dir](pages.md) class.
+Learn more about the [Dir](classes/dir.md) class.
 
 ### search()
 
@@ -136,10 +136,10 @@ This method will search for a given sentence and return a `Results` class. The s
 ##### Parameters
 
 * `$query` - The search query.
-* `$dir` (optional) - We can use:
+* `$path` (optional) - We can use:
     * The default `null` value. To get all the folders.
     * A simple **string**: `'quick-start/subfolder'`, to get the certain folder.
-    * A **string with wildcard**: `'quick-start*'`, to get all the folders that include this slug.
+    * A **string with wildcard**: `'quick-start*'`, to get all the folders that include this path.
     * An **array** of folders: `['quick-start/subfolder', 'first-steps']`, to get may folders.
 * `$metaKeys` (optional) - An array of meta keys to be considered when searching for a query. You have to use YAML part in your files to make it work. Default value: `[]` (empty array)
 
@@ -156,7 +156,7 @@ $results->getQuery();
 $results->getResults();
 ```
 
-Learn more about the [Result](search.md) class.
+Learn more about the [Result](classes/result.md) class.
 
 The search is case-insensitive. It's very basic and count the number of occurrences for the searched word. The number of occurrences is used to order the results.
 
@@ -178,7 +178,7 @@ $markdownPages->parent('')->search('file');
 
     Both methods (`depth()` and `parent()`) refer as in previous cases to the **folder** where the file is located, not to the file itself.
 
-Learn more about the [Results](search.md) class.
+Learn more about the [Results](classes/results.md) class.
 
 ### file()
 
@@ -186,7 +186,7 @@ This method is used to load the file to the `File` class.
 
 ##### Parameters
 
-* `$slug` - The full **urlPath** which includes folder and file slug.
+* `$path` - The full **getPath** which includes parent folder path and file slug.
 
 ##### Examples
 
@@ -198,7 +198,7 @@ $file->getName();
 $file->parse()->getContent();
 ```
 
-Learn more about the [File](pages.md) class.
+Learn more about the [File](classes/file.md) class.
 
 ## Helper Methods
 

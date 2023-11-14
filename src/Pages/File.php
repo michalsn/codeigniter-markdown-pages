@@ -9,7 +9,8 @@ class File
 {
     protected string $name;
     protected string $slug;
-    protected string $dirNameSlug;
+    protected string $path;
+    protected string $dirNamePath;
     protected ?Content $content = null;
 
     public function __construct(
@@ -26,7 +27,8 @@ class File
         $this->name = humanize($this->slug, '-');
 
         $paths             = explode('/', $dirName);
-        $this->dirNameSlug = implode('/', array_map(fn ($path) => $this->cleanup($path), $paths));
+        $this->dirNamePath = implode('/', array_map(fn ($path) => $this->cleanup($path), $paths));
+        $this->path        = implode('/', [$this->dirNamePath, $this->slug]);
     }
 
     /**
@@ -43,6 +45,14 @@ class File
     public function getSlug(): string
     {
         return $this->slug;
+    }
+
+    /**
+     * Get path.
+     */
+    public function getPath(): string
+    {
+        return $this->path;
     }
 
     /**
@@ -70,19 +80,11 @@ class File
     }
 
     /**
-     * Get dir name slug.
+     * Get dir name path.
      */
-    public function getDirNameSlug(): string
+    public function getDirNamePath(): string
     {
-        return $this->dirNameSlug;
-    }
-
-    /**
-     * Get url path for file.
-     */
-    public function urlPath(): string
-    {
-        return implode('/', [$this->getDirNameSlug(), $this->getSlug()]);
+        return $this->dirNamePath;
     }
 
     /**
