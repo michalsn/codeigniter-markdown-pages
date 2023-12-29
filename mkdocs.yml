@@ -55,8 +55,6 @@ nav:
   - Installation: installation.md
   - Configuration: configuration.md
   - Basic Usage: basic_usage.md
-  - Pages: pages.md
-  - Search: search.md
   - Classes:
       - Dir: classes/dir.md
       - File: classes/file.md
