@@ -40,7 +40,7 @@ Returns the raw content of the file.
 
 ### parse()
 
-Returns the `Content` class for a file. Learn more about the [Content](classes/content.md) class.
+Returns the `Content` class for a file. Learn more about the [Content](content.md) class.
 
 ##### Parameters
 

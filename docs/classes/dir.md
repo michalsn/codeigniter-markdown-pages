@@ -38,7 +38,7 @@ Returns `true` or `false` depending on whether children exists or not.
 
 Returns the Collection of `File` classes or empty Collection.
 
-Learn more about the [File](classes/file.md) class.
+Learn more about the [File](file.md) class.
 
 ### hasFiles()
 
