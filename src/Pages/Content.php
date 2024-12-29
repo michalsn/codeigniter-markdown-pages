@@ -13,7 +13,7 @@ class Content
         return $this->content;
     }
 
-    public function getMeta(?string $key = null): string|array|int|null
+    public function getMeta(?string $key = null): array|int|string|null
     {
         if ($key === null) {
             return $this->meta;

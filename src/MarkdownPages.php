@@ -16,8 +16,8 @@ use RecursiveIteratorIterator;
 class MarkdownPages
 {
     protected Collection $pages;
-    protected int|array|null $depth     = null;
-    protected string|array|null $parent = null;
+    protected array|int|null $depth     = null;
+    protected array|string|null $parent = null;
 
     public function __construct(string $folderPath, protected MarkdownPagesConfig $config)
     {
@@ -65,7 +65,7 @@ class MarkdownPages
     /**
      * Prefilter folder depth.
      */
-    public function depth(int|array $depth): static
+    public function depth(array|int $depth): static
     {
         $this->depth = $depth;
 
@@ -75,7 +75,7 @@ class MarkdownPages
     /**
      * Prefilter folder parent path.
      */
-    public function parent(string|array $parent): static
+    public function parent(array|string $parent): static
     {
         $this->parent = $parent;
 
@@ -85,7 +85,7 @@ class MarkdownPages
     /**
      * Get dir based on value.
      */
-    public function dir(string|array $path): ?Dir
+    public function dir(array|string $path): ?Dir
     {
         $dirs = $this->dirs($path);
 
@@ -99,7 +99,7 @@ class MarkdownPages
     /**
      * Get dirs based on value.
      */
-    public function dirs(string|array|null $path = null): Collection
+    public function dirs(array|string|null $path = null): Collection
     {
         $depth  = $this->depth;
         $parent = $this->parent;
@@ -176,7 +176,7 @@ class MarkdownPages
     /**
      * Search through the files.
      */
-    public function search(string $query, string|array|null $path = null, array $metaKeys = []): Results
+    public function search(string $query, array|string|null $path = null, array $metaKeys = []): Results
     {
         $search = new Results($query);
 
