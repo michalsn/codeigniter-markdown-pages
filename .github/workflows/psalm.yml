@@ -52,7 +52,7 @@ jobs:
         run: mkdir -p build/psalm
 
       - name: Cache Psalm results
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: build/psalm
           key: ${{ runner.os }}-psalm-${{ github.sha }}
