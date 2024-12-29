@@ -166,7 +166,7 @@ class MarkdownPages
             $dirPath = implode('/', $segments);
         }
 
-        if (! $dir = $this->dir($dirPath)) {
+        if (($dir = $this->dir($dirPath)) === null) {
             return null;
         }
 

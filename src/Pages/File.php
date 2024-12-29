@@ -131,7 +131,7 @@ class File
      */
     public function search(string $query, array $metaKeys = []): int
     {
-        $rawContent = mb_strtolower($this->load(true));
+        $rawContent = mb_strtolower((string) $this->load(true));
 
         $document = $this->parser->parse($rawContent, false);
         $content  = new Content($document->getContent(), $document->getYAML() ?? []);
