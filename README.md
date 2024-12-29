@@ -59,10 +59,10 @@ foreach($dir->getFiles()->items() as $file) {
     echo $file->getPath();
     // prints: quick-start/installation
 
-    echo $content->parse()->getContent();
-    // prints: parsed markdown from file
+    echo $file->parse()->getContent();
+    // prints: parsed markdown from a file
 
-    echo $content->parse()->getMeta();
+    echo $file->parse()->getMeta();
     // prints: parsed YAML as key -> value
 }
 ```
