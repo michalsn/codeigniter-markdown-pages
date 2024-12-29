@@ -20,7 +20,7 @@ on:
 
 jobs:
   main:
-    name: PHP ${{ matrix.php-versions }} Unit Tests
+    name: PHP ${{ matrix.php-versions }}
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     strategy:
@@ -28,6 +28,22 @@ jobs:
         php-versions: ['8.1', '8.2', '8.3']
 
     steps:
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          # this might remove tools that are actually needed,
+          # if set to "true" but frees about 6 GB
+          tool-cache: false
+
+          # all of these default to true, but feel free to set to
+          # "false" if necessary for your workflow
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: false
+          docker-images: true
+          swap-storage: true
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -60,7 +76,7 @@ jobs:
           fi
 
       - name: Test with PHPUnit
-        run: vendor/bin/phpunit --verbose --coverage-text
+        run: vendor/bin/phpunit --coverage-text
         env:
           TERM: xterm-256color
           TACHYCARDIA_MONITOR_GA: enabled
