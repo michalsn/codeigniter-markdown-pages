@@ -61,3 +61,4 @@ nav:
       - Content: classes/content.md
       - Results: classes/results.md
       - Result: classes/result.md
+  - Extending: extending.md
