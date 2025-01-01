@@ -18,4 +18,5 @@ This library allows you to easily work with markdown based files, located in dir
     * [Content](classes/content.md)
     * [Results](classes/results.md)
     * [Result](classes/result.md)
+* [Extending](extending.md)
 
