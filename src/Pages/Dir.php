@@ -20,7 +20,7 @@ class Dir
         protected string $dirName,
         protected string $basePath,
         protected string $fileExtension,
-        protected Parser $parser
+        protected Parser $parser,
     ) {
         helper('inflector');
 
@@ -74,7 +74,7 @@ class Dir
                     $this->dirName,
                     $this->basePath,
                     $this->depth,
-                    $this->parser
+                    $this->parser,
                 ));
             }
         }
@@ -189,6 +189,6 @@ class Dir
      */
     private function cleanupArray(array $paths): array
     {
-        return array_map(fn ($path) => $this->cleanup($path), $paths);
+        return array_map($this->cleanup(...), $paths);
     }
 }

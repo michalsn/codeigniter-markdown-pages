@@ -1,0 +1,31 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Michalsn\\\\CodeIgniterMarkdownPages\\\\MarkdownPages'' and Michalsn\\CodeIgniterMarkdownPages\\MarkdownPages will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/MarkdownPagesTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Michalsn\\\\CodeIgniterMarkdownPages\\\\Pages\\\\Content'' and Michalsn\\CodeIgniterMarkdownPages\\Pages\\Content will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 3
+			path: tests/MarkdownPagesTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Michalsn\\\\CodeIgniterMarkdownPages\\\\Pages\\\\File'' and Michalsn\\CodeIgniterMarkdownPages\\Pages\\File will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: tests/MarkdownPagesTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Michalsn\\\\CodeIgniterMarkdownPages\\\\Search\\\\Results'' and Michalsn\\CodeIgniterMarkdownPages\\Search\\Results will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 3
+			path: tests/MarkdownPagesTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''Myth\\\\Collection\\\\Collection'' and Myth\\Collection\\Collection will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 17
+			path: tests/MarkdownPagesTest.php

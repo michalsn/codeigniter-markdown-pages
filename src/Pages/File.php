@@ -18,7 +18,7 @@ class File
         protected string $dirName,
         protected string $basePath,
         protected int $depth,
-        protected Parser $parser
+        protected Parser $parser,
     ) {
         helper('inflector');
 
@@ -27,7 +27,7 @@ class File
         $this->name = humanize($this->slug, '-');
 
         $paths             = explode('/', $dirName);
-        $this->dirNamePath = implode('/', array_map(fn ($path) => $this->cleanup($path), $paths));
+        $this->dirNamePath = implode('/', array_map($this->cleanup(...), $paths));
         $this->path        = implode('/', [$this->dirNamePath, $this->slug]);
     }
 
@@ -96,7 +96,7 @@ class File
             DIRECTORY_SEPARATOR,
             [
                 $this->basePath, $this->getDirName(), $this->getFileName(),
-            ]
+            ],
         );
 
         if (! file_exists($path)) {

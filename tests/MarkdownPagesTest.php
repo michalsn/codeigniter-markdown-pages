@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use CodeIgniter\Test\ReflectionHelper;
@@ -69,7 +71,7 @@ final class MarkdownPagesTest extends TestCase
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
         $dir           = $markdownPages->dir('incorrect');
 
-        $this->assertNull($dir);
+        $this->assertNotInstanceOf(Dir::class, $dir);
     }
 
     public function testDirWithArray()
@@ -347,6 +349,7 @@ final class MarkdownPagesTest extends TestCase
         $file          = $markdownPages->file('folder/file-1');
 
         $this->setPrivateProperty($file, 'fileName', 'error');
+        $this->assertInstanceOf(File::class, $file);
         $file->load(true);
     }
 
@@ -355,7 +358,7 @@ final class MarkdownPagesTest extends TestCase
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
         $file          = $markdownPages->file('folder/file-11111');
 
-        $this->assertNull($file);
+        $this->assertNotInstanceOf(File::class, $file);
     }
 
     public function testFileWithHtmlExtension()
