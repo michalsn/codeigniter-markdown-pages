@@ -189,6 +189,6 @@ class Dir
      */
     private function cleanupArray(array $paths): array
     {
-        return array_map(fn ($path) => $this->cleanup($path), $paths);
+        return array_map($this->cleanup(...), $paths);
     }
 }

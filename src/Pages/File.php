@@ -27,7 +27,7 @@ class File
         $this->name = humanize($this->slug, '-');
 
         $paths             = explode('/', $dirName);
-        $this->dirNamePath = implode('/', array_map(fn ($path) => $this->cleanup($path), $paths));
+        $this->dirNamePath = implode('/', array_map($this->cleanup(...), $paths));
         $this->path        = implode('/', [$this->dirNamePath, $this->slug]);
     }
 
