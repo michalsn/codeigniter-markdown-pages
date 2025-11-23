@@ -28,7 +28,7 @@ class MarkdownPages
         // Parser
         $parser = new Parser(
             $config->yamlParser !== null ? new $config->yamlParser() : null,
-            $config->markdownParser !== null ? new $config->markdownParser() : null
+            $config->markdownParser !== null ? new $config->markdownParser() : null,
         );
 
         // Prepare folders and files
@@ -36,7 +36,7 @@ class MarkdownPages
 
         $iterator = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($folderPath, RecursiveDirectoryIterator::SKIP_DOTS),
-            RecursiveIteratorIterator::SELF_FIRST
+            RecursiveIteratorIterator::SELF_FIRST,
         );
 
         foreach ($iterator as $file) {

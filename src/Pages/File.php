@@ -18,7 +18,7 @@ class File
         protected string $dirName,
         protected string $basePath,
         protected int $depth,
-        protected Parser $parser
+        protected Parser $parser,
     ) {
         helper('inflector');
 
@@ -96,7 +96,7 @@ class File
             DIRECTORY_SEPARATOR,
             [
                 $this->basePath, $this->getDirName(), $this->getFileName(),
-            ]
+            ],
         );
 
         if (! file_exists($path)) {

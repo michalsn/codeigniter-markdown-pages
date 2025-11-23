@@ -20,7 +20,7 @@ class Dir
         protected string $dirName,
         protected string $basePath,
         protected string $fileExtension,
-        protected Parser $parser
+        protected Parser $parser,
     ) {
         helper('inflector');
 
@@ -74,7 +74,7 @@ class Dir
                     $this->dirName,
                     $this->basePath,
                     $this->depth,
-                    $this->parser
+                    $this->parser,
                 ));
             }
         }
