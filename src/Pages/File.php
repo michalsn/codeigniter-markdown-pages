@@ -138,7 +138,7 @@ class File
         $content  = new Content($document->getContent(), $document->getYAML() ?? []);
 
         $score = 0;
-        $score += mb_substr_count($this->getName(), $query);
+        $score += mb_substr_count(mb_strtolower($this->getName()), $query);
         $score += mb_substr_count($content->getContent(), $query);
 
         if ($metaKeys === []) {
