@@ -391,10 +391,10 @@ final class MarkdownPagesTest extends TestCase
     public function testSearch()
     {
         $markdownPages = new MarkdownPages($this->folderPath, $this->config);
-        $search        = $markdownPages->search('content');
+        $search        = $markdownPages->search('Content');
 
         $this->assertInstanceOf(Results::class, $search);
-        $this->assertSame('content', $search->getQuery());
+        $this->assertSame('Content', $search->getQuery());
 
         $results = $search->getResults();
         $this->assertInstanceOf(Collection::class, $results);

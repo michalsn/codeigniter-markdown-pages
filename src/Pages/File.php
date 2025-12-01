@@ -131,6 +131,7 @@ class File
      */
     public function search(string $query, array $metaKeys = []): int
     {
+        $query      = mb_strtolower($query);
         $rawContent = mb_strtolower((string) $this->load(true));
 
         $document = $this->parser->parse($rawContent, false);
