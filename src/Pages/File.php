@@ -131,13 +131,14 @@ class File
      */
     public function search(string $query, array $metaKeys = []): int
     {
+        $query      = mb_strtolower($query);
         $rawContent = mb_strtolower((string) $this->load(true));
 
         $document = $this->parser->parse($rawContent, false);
         $content  = new Content($document->getContent(), $document->getYAML() ?? []);
 
         $score = 0;
-        $score += mb_substr_count($this->getName(), $query);
+        $score += mb_substr_count(mb_strtolower($this->getName()), $query);
         $score += mb_substr_count($content->getContent(), $query);
 
         if ($metaKeys === []) {
